@@ -1,13 +1,16 @@
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
+import Products from "@/pages/Products";
 import Signup from "@/pages/Signup";
+import ProductDetails from "@/pages/productDetails";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <> <Navbar /> <Home /> </>
+        element: <> <Navbar /> <Home /> <Products /> <Footer /> </>
     },
     {
         path: "/signup",
@@ -16,6 +19,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />
+    },
+    {
+        path: "/products/:id",
+        element: <ProductDetails />
     }
 ]);
 
