@@ -1,22 +1,26 @@
-import { Menu, ShoppingCart, X } from 'lucide-react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Menu, ShoppingCart, X } from 'lucide-react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const user = true
   const [isOpen, setIsOpen] = useState(false)
+  const { cartItems } = useSelector(store => store.cart)  
+
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0) 
 
   return (
     <header className="bg-purple-300 fixed top-0 left-0 w-full z-20 border-b border-purple-400 shadow-md">
       <div className="max-w-6xl mx-auto flex justify-between items-center px-6 py-3">
-        
+
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img src="/Ecommerce(1).png" alt="Ecommerce Logo" className="w-27.5 h-auto" />
         </Link>
 
         {/* Mobile Menu Button */}
-        <button 
+        <button
           className="md:hidden text-purple-900 hover:text-purple-700 transition-colors"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -38,9 +42,11 @@ const Navbar = () => {
           {/* Cart */}
           <Link to="/cart" className="relative text-purple-900 hover:text-purple-700 transition-colors">
             <ShoppingCart size={26} />
-            <span className="bg-purple-600 text-white text-xs font-bold rounded-full absolute -top-2 -right-2 px-2 py-px">
-              0
-            </span>
+            {cartCount > 0 && (                                
+              <span className="bg-purple-600 text-white text-xs font-bold rounded-full absolute -top-2 -right-2 px-2 py-px">
+                {cartCount}      
+              </span>
+            )}
           </Link>
 
           {/* Auth Button */}
@@ -56,7 +62,7 @@ const Navbar = () => {
         </nav>
       </div>
 
-      {/* Mobile Menu (Dropdown) */}
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-purple-200 border-t border-purple-300 px-6 py-4 space-y-4">
           <Link to="/" className="block text-purple-900 font-semibold hover:text-purple-700">Home</Link>
@@ -66,7 +72,7 @@ const Navbar = () => {
           )}
           <Link to="/cart" className="flex items-center gap-2 text-purple-900 hover:text-purple-700">
             <ShoppingCart size={22} />
-            <span>Cart (0)</span>
+            <span>Cart ({cartCount})</span>
           </Link>
           {user ? (
             <button className="w-full bg-purple-500 hover:bg-purple-600 text-white font-medium px-4 py-2 rounded-lg transition-colors">
